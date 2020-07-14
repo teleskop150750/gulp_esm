@@ -2,6 +2,7 @@
 
 // модули и т.д.
 import gulp from 'gulp'; // gulp
+import fs from 'fs';
 // HTML
 import htmlInclude from 'gulp-html-tag-include'; // объединение html
 import htmlmin from 'gulp-htmlmin'; // min html
@@ -29,6 +30,10 @@ import rename from 'gulp-rename'; // переименовать файл
 import flatten from 'gulp-flatten'; // работа с путями к файлу
 import browserSync from 'browser-sync'; // браузер
 
+const {
+  src, dest, parallel, series, watch,
+} = gulp;
+
 // папка проекта
 const distFolder = 'dist';
 // сжатый проект
@@ -36,11 +41,6 @@ const minFolder = 'min';
 // папка исходников
 const srcFolder = 'src';
 // файловая система
-const fs = require('fs');
-
-const {
-  src, dest, parallel, series, watch,
-} = gulp;
 
 // пути
 const path = {
@@ -121,32 +121,6 @@ export const js = () => src(path.src.js)
   .pipe(dest(path.build.js))
   .pipe(browserSync.stream());
 
-// min HTML CSS JS
-
-export const minHTML = () => src([`${path.build.html}*.html`]) // сжимаем css
-  .pipe(
-    htmlmin({
-      removeComments: true,
-      collapseWhitespace: true,
-    }),
-  )
-  .pipe(dest(path.minBuild.html));
-
-export const minCSS = () => src([`${path.build.css}*.css`]) // сжимаем css
-  .pipe(postcss([cssnano()]))
-  .pipe(dest(path.minBuild.css));
-
-export const minJS = () => src([`${path.build.js}*.js`, `${path.build.js}*.es5.js`])
-  .pipe(src([`${path.build.js}*.js`]))
-  .pipe(terser())
-  .pipe(dest(path.minBuild.js));
-
-export const copy = () => src([`${distFolder}/fonts/**/*`, `${distFolder}/img/**/*`], {
-  base: distFolder,
-})
-  .pipe(dest(minFolder))
-  .pipe(browserSync.stream());
-
 // img
 
 export const img = (cb) => {
@@ -225,13 +199,41 @@ export const fontsStyle = (cb) => {
   cb();
 };
 
+export const fonts = series(ttf, otf, fontsStyle);
+
+// min HTML CSS JS
+
+export const minHTML = () => src([`${path.build.html}*.html`]) // сжимаем css
+  .pipe(
+    htmlmin({
+      removeComments: true,
+      collapseWhitespace: true,
+    }),
+  )
+  .pipe(dest(path.minBuild.html));
+
+export const minCSS = () => src([`${path.build.css}*.css`]) // сжимаем css
+  .pipe(postcss([cssnano()]))
+  .pipe(dest(path.minBuild.css));
+
+export const minJS = () => src([`${path.build.js}*.js`, `${path.build.js}*.es5.js`])
+  .pipe(src([`${path.build.js}*.js`]))
+  .pipe(terser())
+  .pipe(dest(path.minBuild.js));
+
+export const copy = () => src([`${distFolder}/fonts/**/*`, `${distFolder}/img/**/*`], {
+  base: distFolder,
+})
+  .pipe(dest(minFolder))
+  .pipe(browserSync.stream());
+
 // clean dist
 
 export const clean = () => del(distFolder);
 
 // clean min
 
-export const cleanMin = () => del(minFolder);
+const cleanMin = () => del(minFolder);
 
 // syns
 
@@ -255,4 +257,22 @@ export const watchFiles = () => {
   watch(`${path.src.fonts}*.{otf,ttf,}`, series(otf, ttf));
 };
 
-export default series(clean, parallel(html, css, js, img, series(series(otf, ttf), fontsStyle)));
+export const build = series(
+  clean,
+  parallel(
+    html,
+    css,
+    js,
+    img,
+    series(
+      otf,
+      ttf,
+      fontsStyle,
+    ),
+  ),
+);
+
+export const watchBrowser = parallel(watchFiles, browser);
+export const min = series(cleanMin, parallel(minHTML, minCSS, minJS, copy));
+
+export default series(build, watchBrowser);
