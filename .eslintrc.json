@@ -1,0 +1,50 @@
+{
+	"env": {
+		"browser": true,
+		"es2020": true
+	},
+	"extends": ["airbnb-base"],
+	"parserOptions": {
+		"ecmaVersion": 11,
+		"sourceType": "module"
+	},
+	"rules": {
+		// неиспользуемые переменные
+		"no-unused-vars": "warn",
+		// запретить console
+		"no-console": "off",
+		// запретить alert
+		"no-alert": "off",
+		// запретить x++;
+		"no-plusplus": "off",
+		// пустая строка в конце
+		"eol-last": "warn",
+		// пустые строки в конце
+		"no-multiple-empty-lines": "warn",
+		// табы и оступы
+		"no-tabs": "off",
+		"indent": ["error", 2],
+		// использовать дуструкториязацию => false
+		// const name = obj.name;
+		"prefer-destructuring": "off",
+		// переопределить парметры в функции
+		"no-param-reassign": "off",
+		//максимальная длина строки
+		"max-len": [
+			"warn",
+			{
+				"code": 80,
+				"ignoreComments": true,
+				"ignoreTrailingComments": true,
+				"ignoreUrls": true,
+				"ignoreStrings": true,
+				"ignoreTemplateLiterals": true,
+				"ignoreRegExpLiterals": true
+			}
+		],
+		//перенос строк для windows
+		"linebreak-style": 0,
+		"global-require": 0,
+		"eslint linebreak-style": [0, "error", "windows"]
+	}
+}

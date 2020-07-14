@@ -1,0 +1,12 @@
+/* Global */
+
+@import '/global/fonts.css';
+@import '/global/box-model.css';
+@import '/global/variables.css';
+@import '/global/page.css';
+
+/* Blocks */
+
+@import '../blocks/header/header.css';
+@import '../blocks/main/main.css';
+@import '../blocks/footer/footer.css';

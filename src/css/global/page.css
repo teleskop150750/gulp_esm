@@ -1,0 +1,12 @@
+/* Page */
+
+.page {
+  font-family: 'Roboto', sans-serif;
+  line-height: 1.5;
+  color: var(--basic-black);
+  background-color: var(--basic-white);
+}
+
+.page__body {
+  margin: 0;
+}

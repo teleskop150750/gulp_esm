@@ -1,0 +1,5 @@
+# список поддерживаемых браузеров
+last 2 version,
+not dead,
+not ie <= 11,
+iOS >= 12
