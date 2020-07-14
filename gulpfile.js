@@ -1,8 +1,6 @@
-/* eslint-disable max-len */
-
 // модули и т.д.
 import gulp from 'gulp'; // gulp
-import fs from 'fs';
+import fs from 'fs'; // файловая система
 // HTML
 import htmlInclude from 'gulp-html-tag-include'; // объединение html
 import htmlmin from 'gulp-htmlmin'; // min html
@@ -272,7 +270,22 @@ export const build = series(
   ),
 );
 
-export const watchBrowser = parallel(watchFiles, browser);
-export const min = series(cleanMin, parallel(minHTML, minCSS, minJS, copy));
+export const watchBrowser = parallel(
+  watchFiles,
+  browser,
+);
 
-export default series(build, watchBrowser);
+export const min = series(
+  cleanMin,
+  parallel(
+    minHTML,
+    minCSS,
+    minJS,
+    copy,
+  ),
+);
+
+export default series(
+  build,
+  watchBrowser,
+);
