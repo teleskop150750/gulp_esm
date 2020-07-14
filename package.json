@@ -1,8 +1,5 @@
 {
-  "name": "gulp-teleskop",
-  "version": "2.0.0",
-  "description": "сборка gulp",
-  "main": "index.html",
+  "private": true,
   "scripts": {
     "start": "gulp",
     "build": "gulp build",
@@ -14,8 +11,6 @@
     "fonts": "gulp fonts fontsStyle",
     "min": "gulp min"
   },
-  "author": "teleskop150750",
-  "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.10.4",
     "@babel/preset-env": "^7.10.4",
