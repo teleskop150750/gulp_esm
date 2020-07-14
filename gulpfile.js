@@ -1,8 +1,5 @@
-/* eslint-disable max-len */
-
 // модули и т.д.
 import gulp from 'gulp'; // gulp
-import fs from 'fs';
 // HTML
 import htmlInclude from 'gulp-html-tag-include'; // объединение html
 import htmlmin from 'gulp-htmlmin'; // min html
@@ -25,6 +22,7 @@ import webp from 'gulp-webp'; // конвертация в webp
 import ttf2woff2 from 'gulp-ttf2woff2'; // ttf2woff2
 import fonter from 'gulp-fonter'; // otf2ttf
 // работа с файлами
+import fs from 'fs'; // файловая система
 import del from 'del'; // удалить папки/файлы
 import rename from 'gulp-rename'; // переименовать файл
 import flatten from 'gulp-flatten'; // работа с путями к файлу
@@ -272,7 +270,22 @@ export const build = series(
   ),
 );
 
-export const watchBrowser = parallel(watchFiles, browser);
-export const min = series(cleanMin, parallel(minHTML, minCSS, minJS, copy));
+export const watchBrowser = parallel(
+  watchFiles,
+  browser,
+);
 
-export default series(build, watchBrowser);
+export const min = series(
+  cleanMin,
+  parallel(
+    minHTML,
+    minCSS,
+    minJS,
+    copy,
+  ),
+);
+
+export default series(
+  build,
+  watchBrowser,
+);
