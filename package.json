@@ -4,7 +4,7 @@
   "scripts": {
     "start": "gulp",
     "build": "gulp build",
-    "watchFiles": "gulp watchFiles",
+    "watchFiles": "gulp watchFiles browser",
     "html": "gulp html",
     "css": "gulp css",
     "js": "gulp js",

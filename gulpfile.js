@@ -1,4 +1,4 @@
-// модули и т.д.
+// модули
 import gulp from 'gulp'; // gulp
 // HTML
 import htmlInclude from 'gulp-html-tag-include'; // объединение html
@@ -63,15 +63,15 @@ const path = {
     html: `${srcFolder}/index.html`,
     css: `${srcFolder}/css/index.css`,
     js: `${srcFolder}/js/index.js`,
-    img: `${srcFolder}/**/`,
+    img: `${srcFolder}/`,
     fonts: `${srcFolder}/fonts/`,
   },
   // отслеживание
   watch: {
     html: `${srcFolder}/**/*.html`,
-    css: `${srcFolder}/**/*.scss`,
+    css: `${srcFolder}/**/*.css`,
     js: `${srcFolder}/**/*.js`,
-    img: `${srcFolder}/**/`,
+    img: `${srcFolder}/**/img/*`,
   },
 };
 
@@ -144,16 +144,6 @@ export const img = (cb) => {
 
 // fonts
 
-export const ttf = () => src(`${path.src.fonts}*.ttf`)
-  .on('data', (file) => {
-    del(path.src.fonts + file.basename);
-  })
-  .pipe(ttf2woff2())
-  .pipe(dest(path.src.fonts))
-
-  .pipe(src(`${path.src.fonts}*.woff2`))
-  .pipe(dest(path.build.fonts));
-
 export const otf = () => src(`${path.src.fonts}*.otf`)
   .on('data', (file) => {
     del(path.src.fonts + file.basename);
@@ -164,6 +154,16 @@ export const otf = () => src(`${path.src.fonts}*.otf`)
     }),
   )
   .pipe(dest(path.src.fonts));
+
+export const ttf = () => src(`${path.src.fonts}*.ttf`)
+  .on('data', (file) => {
+    del(path.src.fonts + file.basename);
+  })
+  .pipe(ttf2woff2())
+  .pipe(dest(path.src.fonts))
+
+  .pipe(src(`${path.src.fonts}*.woff2`))
+  .pipe(dest(path.build.fonts));
 
 // запись шрифтов в fonts.css
 // файл должен быть изначально пустой
@@ -247,14 +247,15 @@ export const browser = () => {
 
 // watch
 
-export const watchFiles = () => {
+const watchFiles = () => {
   watch(path.watch.html, html);
   watch(path.watch.css, css);
   watch(path.watch.js, js);
-  watch(`${path.src.img}*.{jpg,png,}`, img);
+  watch(`${path.src.img}`, img);
   watch(`${path.src.fonts}*.{otf,ttf,}`, series(otf, ttf));
 };
 
+// cобрать проект
 export const build = series(
   clean,
   parallel(
@@ -270,9 +271,15 @@ export const build = series(
   ),
 );
 
+// запустить watcher и браузер
 export const watchBrowser = parallel(
   watchFiles,
   browser,
+);
+
+export default series(
+  build,
+  watchBrowser,
 );
 
 export const min = series(
@@ -283,9 +290,4 @@ export const min = series(
     minJS,
     copy,
   ),
-);
-
-export default series(
-  build,
-  watchBrowser,
 );
