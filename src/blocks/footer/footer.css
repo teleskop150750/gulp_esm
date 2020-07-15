@@ -1,1 +1,14 @@
 /* footer */
+
+.footer {
+  padding: 20px 64px 30px;
+  background-color: var(--color-grey-dark);
+
+  &__copy {
+    color: var(--color-grey-lighter);
+  }
+
+  &__nickname {
+    font-weight: 700;
+  }
+}

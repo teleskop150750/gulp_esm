@@ -1,0 +1,38 @@
+/* browsers */
+
+.browsers {
+  &__list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  &__list-item {
+    padding: 20px;
+    margin-top: 1px;
+    margin-left: 1px;
+    box-shadow: 0 0 0 1px var(--color-grey-lighter);
+  }
+
+  &__list-figure {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+  }
+
+  &__list-img {
+    display: block;
+    width: 100%;
+    max-width: 350px;
+    max-height: 350px;
+    margin-bottom: 10px;
+  }
+
+  &__list-figcaption {
+    font-size: 20px;
+    text-align: center;
+  }
+}

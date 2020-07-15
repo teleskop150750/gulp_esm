@@ -1,8 +1,8 @@
 // header
 
 (() => {
-  const a = 4;
+  const a = 2;
   const b = 4;
-  const result = a + b;
+  const result = b ** a;
   console.log(result);
 })();

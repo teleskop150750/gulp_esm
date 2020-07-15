@@ -9,4 +9,5 @@
 
 @import '../blocks/header/header.css';
 @import '../blocks/main/main.css';
+@import '../blocks/browsers/browsers.css';
 @import '../blocks/footer/footer.css';

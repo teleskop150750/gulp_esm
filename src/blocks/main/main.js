@@ -1,8 +1,8 @@
-// footer
+// main
 
 (() => {
   const a = 2;
-  const b = 2;
-  const result = a + b;
+  const b = 4;
+  const result = b + a;
   console.log(result);
 })();
